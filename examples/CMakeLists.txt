@@ -1,2 +1,2 @@
 add_subdirectory(helloworld)
-add_subdirectory(viewer6)
+add_subdirectory(schrodingercat)
