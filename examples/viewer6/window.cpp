@@ -48,7 +48,8 @@ void Window::onCreate() {
   }
 
   // Load default model
-  loadModel(assetsPath + "bunny.obj");
+  
+  loadModel(assetsPath + "cat.obj");
 
   // Initial trackball spin
   m_trackBallModel.setAxis(glm::normalize(glm::vec3(1, 1, 1)));
@@ -56,14 +57,24 @@ void Window::onCreate() {
 
   createSkybox();
 }
-
+int catcolor = 0;
 void Window::loadModel(std::string_view path) {
   auto const assetsPath{abcg::Application::getAssetsPath()};
 
   m_model.destroy();
+  if (catcolor==0){
+    m_model.loadDiffuseTexture(assetsPath + "maps/1.jpg");
+  }
+  if (catcolor==1){
+    m_model.loadDiffuseTexture(assetsPath + "maps/2.jpg");
+  }
+  if (catcolor==2){
+    m_model.loadDiffuseTexture(assetsPath + "maps/3.jpg");
+  }
+  if (catcolor==3){
+    m_model.loadDiffuseTexture(assetsPath + "maps/4.jpg");
+  }
 
-  m_model.loadDiffuseTexture(assetsPath + "maps/pattern.png");
-  m_model.loadNormalTexture(assetsPath + "maps/pattern_normal.png");
   m_model.loadCubeTexture(assetsPath + "maps/cube/");
   m_model.loadObj(path);
   m_model.setupVAO(m_programs.at(m_currentProgramIndex));
@@ -154,6 +165,8 @@ void Window::onUpdate() {
 
 void Window::onPaintUI() {
   abcg::OpenGLWindow::onPaintUI();
+  auto const assetsPath{abcg::Application::getAssetsPath()};
+ 
 
   auto const scaledWidth{gsl::narrow_cast<int>(m_viewportSize.x * 0.8f)};
   auto const scaledHeight{gsl::narrow_cast<int>(m_viewportSize.y * 0.8f)};
@@ -191,12 +204,22 @@ void Window::onPaintUI() {
       // Add extra space for static text
       widgetSize.y += 26;
     }
+    
 
     ImGui::SetNextWindowPos(ImVec2(m_viewportSize.x - widgetSize.x - 5, 5));
     ImGui::SetNextWindowSize(widgetSize);
     ImGui::Begin("Widget window", nullptr,
                  ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDecoration);
 
+    if (ImGui::Button("Raça", ImVec2(80, 40))) {
+      catcolor++;
+
+      if (catcolor > 3)
+        catcolor = 0;
+
+      loadModel(assetsPath + "cat.obj");
+	  }
+    
     // Menu
     {
       bool loadModel{};

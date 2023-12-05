@@ -49,7 +49,7 @@ private:
   glm::vec4 m_Kd{};
   glm::vec4 m_Ks{};
   float m_shininess{};
-
+  int catcolor {};
   // Skybox
   std::string const m_skyShaderName{"skybox"};
   GLuint m_skyVAO{};
